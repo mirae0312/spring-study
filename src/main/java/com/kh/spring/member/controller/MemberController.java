@@ -42,7 +42,7 @@ public class MemberController {
 			@RequestParam String id, // @RequestParam : 필수값
 			@RequestParam String password, 
 			RedirectAttributes redirectAttr) { 
-		// 인증(사용자가있는지 비교)
+		// 인증과정(사용자가있는지 비교)
 		Member member = memberService.selectOneMember(id);
 		log.info("member = {}", member);
 		
