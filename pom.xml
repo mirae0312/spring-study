@@ -100,8 +100,9 @@
 					<artifactId>jmxri</artifactId>
 				</exclusion>
 			</exclusions>
-			<scope>runtime</scope>
+			<!-- <scope>runtime</scope> -->
 		</dependency>
+		<!-- scope태그의 기본값은 compile, runtime, provided -->
 
 		<!-- @Inject -->
 		<dependency>
