@@ -1,7 +1,6 @@
 package com.kh.spring.log4j;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * Logging 
@@ -13,9 +12,10 @@ import org.slf4j.LoggerFactory;
  *  - log4j단독사용가능
  *
  */
+@Slf4j
 public class Slf4jStudy2 {
 
-	private static Logger log = LoggerFactory.getLogger(Slf4jStudy2.class);
+//	private static Logger log = LoggerFactory.getLogger(Slf4jStudy2.class); // @Slf4j만 써줘도 됨
 	
 	public static void main(String[] args) {
 //		log.fatal("fatal"); // 심각한 에러 상황 (Slf4j에는 fatal레벨 없음)

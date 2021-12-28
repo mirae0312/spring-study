@@ -37,6 +37,16 @@
 		</layout>
 	</appender>
 	
+	<!-- File Logging하기 -->
+	<appender class="org.apache.log4j.DailyRollingFileAppender" name="fileLogger">
+		<param name="file" value="${catalina.base}/logs/spring/spring.log"/>
+		<param name="append" value="true" />
+		<param name="datePattern" value=".yyyy-MM-dd"/>
+		<layout class="org.apche.log4j.PatternLayout">
+			<param name="ConversionPattern" value="%-5p:[%d{yyyy/MM/dd HH:mm:ss}] %F:%L - %m%n" />
+		</layout>
+	</appender>
+	
 	<!-- Application Loggers : 로깅 수집 -->
 	<!-- additivity="true" 상위레벨로 로깅전파 -->
 	<logger name="com.kh.spring" additivity="true">
@@ -64,6 +74,8 @@
 	<root>
 		<priority value="warn" />
 		<appender-ref ref="console" />
+		<!-- 파일 로깅 -->
+		<appender-ref ref="fileLogger" />
 	</root>
 	
 </log4j:configuration>
