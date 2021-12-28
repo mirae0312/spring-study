@@ -52,7 +52,7 @@
                         </a>
                         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                             <a class="dropdown-item" href="${pageContext.request.contextPath}/demo/devForm.do">Dev 등록</a>
-                            <a class="dropdown-item" href="${pageContext.request.contextPath}/demo/devList.do">Dev 목록</a>
+                            <a class="dropdown-item" href="${pageContext.request.contextPath}/demo/devList.do?id=abcd&kkk=ddd">Dev 목록</a>
                         </div>
 				    </li>
 			    </ul>

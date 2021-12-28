@@ -9,6 +9,7 @@ import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.InitBinder;
@@ -37,22 +38,30 @@ public class MemberController {
 	
 	@Autowired
 	private BCryptPasswordEncoder bcryptPasswordEncoder;
+	
 //	@RequestMapping(value="memberLogin.do", method = RequestMethod.GET)
 	@GetMapping("/memberLogin.do")
-	public String memberLigin(@RequestHeader(name="Referer", required=false) String referer, Model model) {
+	public String memberLogin(
+			@RequestHeader(name="Referer", required=false) String referer, 
+			@SessionAttribute(required = false) String next,
+			Model model) {
+		
 		log.info("referer = {}", referer);
+		
+		if(next == null)
 		model.addAttribute("next", referer); // referer를 세션에 담음 
 		
 		return "member/memberLogin";
 	}
 	
 	@PostMapping("/memberLogin.do")
-	public String memberLigin(
+	public String memberLogin(
 			@RequestParam String id, // @RequestParam : 필수값
 			@RequestParam String password, 
 			@SessionAttribute(required=false) String next,
 			Model model,
 			RedirectAttributes redirectAttr) { 
+		
 		// 인증과정(사용자가있는지 비교)
 		Member member = memberService.selectOneMember(id);
 		log.info("member = {}", member);
@@ -69,9 +78,8 @@ public class MemberController {
 			model.addAttribute("loginMember", member);
 			
 			// next값을 location으로 등록
-			log.info("next ={}", next);
+			log.info("next = {}", next);
 			location = next;
-			model.addAttribute("next", null);
 		}
 		else {
 			// 로그인 실패시
@@ -81,7 +89,9 @@ public class MemberController {
 	}
 	
 	@GetMapping("/memberLogout.do")
-	public String memberLogout(SessionStatus sessionStatus) { // SessionStatus : 세션의 상태를 관리해줌
+	public String memberLogout(SessionStatus sessionStatus, ModelMap model) { // SessionStatus : 세션의 상태를 관리해줌
+		
+		model.clear(); // 관리되는 model속성 완전 제거
 		
 		// 현재 세션객체의 사용완료 설정 - 세션속성등 내부를 초기화, 세션객체는 재사용(session invalidate보다 안정적. 효율적)
 		if(!sessionStatus.isComplete())

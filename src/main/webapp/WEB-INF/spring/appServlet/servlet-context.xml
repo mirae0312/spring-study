@@ -27,6 +27,26 @@
 	<!-- basepackage하위의 클래스를 대상으로 annotation활성화 : @Component, @Autowired -->
 	<context:component-scan base-package="com.kh.spring" />
 	
+	<!-- #8. interceptor 등록 -->
+	<interceptors>
+		<interceptor>
+			<!-- /**은 모든요청에 사용한다. -->
+			<mapping path="/**"/> 
+			<beans:bean class="com.kh.spring.common.interceptor.LogInterceptor" id="logInterceptor"/>
+		</interceptor>
+		<interceptor>
+			<mapping path="/demo/**"/>
+			<!-- exclude-mapping 로그인안하고 사용할수있음 -->
+			<exclude-mapping path="/demo/devFrom.do"/>
+			<exclude-mapping path="/demo/dev1.do"/>
+			<exclude-mapping path="/demo/dev2.do"/>
+			<exclude-mapping path="/demo/dev3.do"/>
+			<beans:bean class="com.kh.spring.common.interceptor.LoginCheckInterceptor" id="loginCheckInterceptor"/>
+		</interceptor>
+	</interceptors>
+	
+	
+	
 	
 	
 </beans:beans>
