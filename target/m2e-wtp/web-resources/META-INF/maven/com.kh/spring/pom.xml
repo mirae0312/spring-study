@@ -58,7 +58,14 @@
 			<groupId>org.aspectj</groupId>
 			<artifactId>aspectjrt</artifactId>
 			<version>${org.aspectj-version}</version>
-		</dependency>	
+		</dependency>
+		<!-- #10. AOP처리용 aspectjweaver 의존 추가 -->	
+		<dependency>
+		    <groupId>org.aspectj</groupId>
+		    <artifactId>aspectjweaver</artifactId>
+		    <version>1.9.6</version>
+		    <scope>runtime</scope>
+		</dependency>
 		
 		<!-- Logging -->
 		<dependency>

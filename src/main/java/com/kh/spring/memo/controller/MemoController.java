@@ -1,0 +1,54 @@
+package com.kh.spring.memo.controller;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import com.kh.spring.memo.model.service.MemoService;
+import com.kh.spring.memo.model.vo.Memo;
+
+import lombok.extern.slf4j.Slf4j;
+
+@Controller
+@RequestMapping("/memo")
+@Slf4j
+public class MemoController {
+
+	@Autowired
+	private MemoService memoService;
+	/**
+	 * 리턴하는 ViewName이 없는 경우, 요청 url로부터 jsp경로를 유추해서 찾아간다.
+	 * ViewNameTranslator빈 (내부적으로 작동함)
+	 * 
+	 *	/memo/memo.do -> "memo/memo"
+	 */
+	@GetMapping("/memo.do")
+	public void memo(Model model) {
+		log.debug("컨트롤러 주 업무");
+		List<Memo> list = memoService.selectMemoList();
+		model.addAttribute("list", list);
+		log.info("list = {}", list);
+		
+	}
+	@PostMapping("/insertMemo.do")
+	public String insertMemo(Memo memo, RedirectAttributes redirectAttr) {
+		
+		try {
+			log.debug("memo = {}", memo);
+			int result = memoService.insertMemo(memo);
+			String msg = "메모 등록 성공!";		
+			redirectAttr.addFlashAttribute("msg", msg);
+		} catch (Exception e) {
+			log.error(e.getMessage(), e);
+			throw e; // spring container 예외처리 위임
+		}
+				
+		return "redirect:/memo/memo.do";
+	}
+}

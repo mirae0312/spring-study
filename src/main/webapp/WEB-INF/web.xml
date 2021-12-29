@@ -29,8 +29,11 @@
 		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
 		<init-param>
 			<param-name>contextConfigLocation</param-name>
+			<!-- #10.2. aspect-context.xml 등록 -->
 			<param-value>
-				/WEB-INF/spring/appServlet/servlet-context.xml</param-value>
+				/WEB-INF/spring/appServlet/servlet-context.xml
+				/WEB-INF/spring/appServlet/aspect-context.xml
+				</param-value>
 		</init-param>
 		<load-on-startup>1</load-on-startup>
 	</servlet>

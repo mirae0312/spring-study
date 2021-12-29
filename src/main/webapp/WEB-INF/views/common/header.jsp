@@ -55,6 +55,7 @@
                             <a class="dropdown-item" href="${pageContext.request.contextPath}/demo/devList.do?id=abcd&kkk=ddd">Dev 목록</a>
                         </div>
 				    </li>
+				    <li class="nav-item"><a class="nav-link" href="${pageContext.request.contextPath}/memo/memo.do">메모</a></li>
 			    </ul>
 			    <!-- 로그인 하기전 -->
 			    <c:if test="${empty loginMember}">
