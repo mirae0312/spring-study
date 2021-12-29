@@ -15,6 +15,13 @@ import com.kh.spring.memo.model.vo.Memo;
 
 import lombok.extern.slf4j.Slf4j;
 
+/**
+ * 
+ * Proxy객체를 통해 AOP를 구현한다.
+ *  - 인터페이스 구현객체 : jdk동적 proxy를 의존주입한다.
+ *  - 인터페이스 구현하지 않은 객체 : CGLIB에 의해 생성된 proxy객체를 의존주입한다.
+ *
+ */
 @Controller
 @RequestMapping("/memo")
 @Slf4j
@@ -38,7 +45,7 @@ public class MemoController {
 	}
 	@PostMapping("/insertMemo.do")
 	public String insertMemo(Memo memo, RedirectAttributes redirectAttr) {
-		
+			log.debug("의존타입 : {}", memoService.getClass());
 		try {
 			log.debug("memo = {}", memo);
 			int result = memoService.insertMemo(memo);
