@@ -22,9 +22,12 @@ public class LogAspect {
 		// 주 업무로직의 특정메소드
 		Object retObj = joinPoint.proceed(); // 호출
 		stopWatch.stop();
+		long totalTimeMillis = stopWatch.getTotalTimeMillis();
 		
 		// joinPoint 호출 후
 		log.debug("[After] {}.{}", type, methodName);
+		
+		log.debug("메소드 : {}, 실행시간 : {}ms", methodName, totalTimeMillis);
 		
 		return retObj;
 	}
