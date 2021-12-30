@@ -10,4 +10,8 @@ public interface MemoDao {
 
 	int insertMemo(Memo memo);
 
+	int deleteMemo(int no);
+
+	Memo selectOneMemo(int no);
+
 }

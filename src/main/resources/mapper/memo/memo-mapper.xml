@@ -11,6 +11,14 @@
 		order by
 			no desc
 	</select>
+	<select id="selectOneMemo" resultType="memo">
+		select
+			*
+		from
+			memo
+		where
+			no = #{no}
+	</select>
 	
 	<insert id="insertMemo">
 		insert into
@@ -21,4 +29,10 @@
 			#{password}
 		)
 	</insert>
+	<delete id="deleteMemo">
+		delete from
+			memo
+		where
+			no = #{no}
+	</delete>
 </mapper>

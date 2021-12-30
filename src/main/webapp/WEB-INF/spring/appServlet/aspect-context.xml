@@ -6,20 +6,24 @@
 		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.3.xsd">
 		
 	<!-- #10.1. 선언적 AOP 설정 시작 -->
-	<bean class="com.kh.spring.common.aop.LogAspect" id="logAspect"/>
+	<!-- <bean class="com.kh.spring.common.aop.LogAspect" id="logAspect"/>
 	<bean class="com.kh.spring.common.aop.StopWatchAspect" id="stopWatchAspect"/>
 	
 	<aop:config>
 		<aop:aspect id="logAspect" ref="logAspect">
 			<aop:pointcut expression="execution(* com.kh.spring.memo.model.service..*(..))" id="memoPointcut"/>
-			<!-- method = advice로 쓸 메소드이름 -->
+			method = advice로 쓸 메소드이름
 			<aop:around method="aroundAdvice" pointcut-ref="memoPointcut"/>
 		</aop:aspect>
-		<!-- stopwatch -->
+		stopwatch
 		<aop:aspect id="stopWatchAspect" ref="stopWatchAspect">
 			<aop:around method="aroundAdvice" pointcut="execution(* com.kh.spring.memo.controller.MemoController.insertMemo(..))"/>
 		</aop:aspect>
-	</aop:config>
+	</aop:config> -->
 	<!-- #10.1. 선언적 AOP 설정 끝 -->
+	
+	<!-- #10.1 프로그래밍적 aop 설정 시작 -->
+	<aop:aspectj-autoproxy />
+	<!-- #10.1 프로그래밍적 aop 설정 끝 -->
 
 </beans>

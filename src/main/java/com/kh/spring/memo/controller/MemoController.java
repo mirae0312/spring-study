@@ -8,6 +8,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.kh.spring.memo.model.service.MemoService;
@@ -58,4 +59,21 @@ public class MemoController {
 				
 		return "redirect:/memo/memo.do";
 	}
+	@PostMapping("/deleteMemo.do")
+	public String deleteMemo(
+			@RequestParam int no, 
+			@RequestParam String password, 
+			RedirectAttributes redirectAtt) {
+		
+		log.debug("no : {} paaword : {}", no, password);
+		int result = memoService.deleteMemo(no);
+		String msg = "메모 삭제 성공!";
+		redirectAtt.addFlashAttribute("msg", msg);
+		
+		return "redirect:/memo/memo.do";
+	}
+	
+	
+	
+	
 }

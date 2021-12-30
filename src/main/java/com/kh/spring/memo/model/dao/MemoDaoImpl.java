@@ -28,4 +28,14 @@ public class MemoDaoImpl implements MemoDao {
 		return session.insert("memo.insertMemo", memo);
 	}
 
+	@Override
+	public int deleteMemo(int no) {
+		return session.delete("memo.deleteMemo", no);
+	}
+
+	@Override
+	public Memo selectOneMemo(int no) {
+		return session.selectOne("memo.selectOneMemo", no);
+	}
+
 }
