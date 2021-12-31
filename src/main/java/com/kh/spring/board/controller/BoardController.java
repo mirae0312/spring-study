@@ -51,7 +51,7 @@ public class BoardController {
 			@RequestParam(name="upFile", required=false) MultipartFile[] upFiles, 
 			RedirectAttributes redirectAtt) throws IllegalStateException, IOException {
 		log.debug("board = {}", board);
-		String saveDirectory = application.getRealPath("/resource/upload/board"); // 저장경로
+		String saveDirectory = application.getRealPath("/resources/upload/board"); // 저장경로
 		List<Attachment> attachments = new ArrayList<>();
 		
 		// 1. 첨부파일을 서버컴퓨터에 저장 : rename
@@ -59,10 +59,10 @@ public class BoardController {
 		for(int i = 0; i < upFiles.length; i++) {
 			MultipartFile upFile = upFiles[i];
 			if(!upFile.isEmpty()) {
-				String originalFilename = upFile.getOriginalFilename();
 				
 				// 1. 저장 경로 | renamedFilename
-				String renamedFilename = HelloSpringUtils.rename(saveDirectory);
+				String originalFilename = upFile.getOriginalFilename();
+				String renamedFilename = HelloSpringUtils.rename(originalFilename);
 				File dest = new File(saveDirectory, renamedFilename);
 				upFile.transferTo(dest);
 				
