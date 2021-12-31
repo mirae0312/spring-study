@@ -5,6 +5,9 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.kh.spring.board.model.dao.BoardDao;
 import com.kh.spring.board.model.vo.Attachment;
@@ -14,6 +17,7 @@ import lombok.extern.slf4j.Slf4j;
 
 @Service
 @Slf4j
+@Transactional(rollbackFor = Exception.class)
 public class BoardServiceImpl implements BoardService {
 
 	@Autowired
@@ -29,6 +33,10 @@ public class BoardServiceImpl implements BoardService {
 		return boardDao.selectTotalBoardCount();
 	}
 
+	@Transactional(
+			propagation = Propagation.REQUIRED,
+			isolation = Isolation.READ_COMMITTED,
+			rollbackFor = Exception.class)
 	@Override
 	public int insertBoard(Board board) {
 		int result = boardDao.insertBoard(board);
@@ -45,8 +53,21 @@ public class BoardServiceImpl implements BoardService {
 		return result;
 	}
 
-	private int insertAttachment(Attachment attach) {
+//	@Transactional(rollbackFor = Exception.class)
+	public int insertAttachment(Attachment attach) {
 		return boardDao.insertAttachment(attach);
+	}
+
+	@Override
+	public Board selectOneBoard(int no) {
+		// 1. board테이블 조회
+		Board board = boardDao.selectOneBoard(no);
+		
+		// 2. attachment테이블 조회
+		List<Attachment> attachments = boardDao.selectAttachmentListByBoardList(no);
+		
+		board.setAttachments(attachments);
+		return board;
 	}
 	
 	

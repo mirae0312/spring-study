@@ -45,6 +45,13 @@ public class BoardController {
 	@GetMapping("/boardForm.do")
 	public void boardForm() {}
 	
+	@GetMapping("/boardDetail.do")
+	public void boardDetail(@RequestParam int no, Model model) {
+		Board board = boardService.selectOneBoard(no);
+		log.debug("board = {}", board);
+		model.addAttribute("board", board);
+	}
+	
 	@PostMapping("/boardEnroll.do")
 	public String boardEnroll(
 			Board board, 

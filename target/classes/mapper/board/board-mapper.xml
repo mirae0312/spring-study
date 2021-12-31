@@ -45,4 +45,21 @@
 			#{renamedFilename}
 		)
 	</insert>
+	
+	<select id="selectOneBoard" resultType="board">
+		select
+			*
+		from
+			board
+		where
+			no = #{no}
+	</select>
+	<select id="selectAttachmentListByBoardList" resultType="attachment">
+		select
+			*
+		from
+			attachment
+		where
+			board_no = #{boardNo}
+	</select>
 </mapper>

@@ -9,11 +9,20 @@
 <style>
 /*글쓰기버튼*/
 input#btn-add{float:right; margin: 0 0 15px;}
+tr[data-no] {cursor: Pointer;}
 </style>
 <script>
 function goBoardForm(){
 	location.href = "${pageContext.request.contextPath}/board/boardForm.do";
 }
+
+$(() => {
+	$("tr[data-no]").click((e) => {
+		const $tr = $(e.target).parent();
+		const no = $tr.data("no");
+		location.href = `${pageContext.request.contextPath}/board/boardDetail.do?no=\${no}`;
+	});
+});
 </script>
 <section id="board-container" class="container">
 	<input 
@@ -29,7 +38,7 @@ function goBoardForm(){
 			<th>조회수</th>
 		</tr>
 		<c:forEach items="${list}" var="board">
-			<tr>
+			<tr data-no="${board.no}">
 				<td>${board.no}</td>
 				<td>${board.title}</td>
 				<td>${board.memberId}</td>
