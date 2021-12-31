@@ -16,7 +16,9 @@ function goBoardForm(){
 }
 </script>
 <section id="board-container" class="container">
-	<input type="button" value="글쓰기" id="btn-add" class="btn btn-outline-success" onclick="goBoardForm();"/>
+	<input 
+		type="button" value="글쓰기" id="btn-add" class="btn btn-outline-success" 
+		onclick="goBoardForm();"/>
 	<table id="tbl-board" class="table table-striped table-hover">
 		<tr>
 			<th>번호</th>
@@ -41,15 +43,7 @@ function goBoardForm(){
 			</tr>
 		</c:forEach>
 	</table>
-	<nav aria-label="Page navigation example">
-		<ul class="pagination justify-content-center">
-			<li class="page-item disabled"><a class="page-link" href="#" tabindex="-1">Previous</a></li>
-			<li class="page-item"><a class="page-link" href="#">1</a></li>
-			<li class="page-item"><a class="page-link" href="#">2</a></li>
-			<li class="page-item"><a class="page-link" href="#">3</a></li>
-			<li class="page-item"><a class="page-link" href="#">Next</a></li>
-		</ul>
-	</nav>
+	${pagebar}
 </section> 
 
 <jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>

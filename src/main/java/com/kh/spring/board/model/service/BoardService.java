@@ -9,4 +9,6 @@ public interface BoardService {
 
 	List<Board> selectBoardList(Map<String, Object> param);
 
+	int selectTotalBoardCount();
+
 }
