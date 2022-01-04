@@ -2,10 +2,13 @@ package com.kh.spring.member.controller;
 
 import java.beans.PropertyEditor;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 import java.text.SimpleDateFormat;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -17,6 +20,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttribute;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
@@ -38,6 +42,78 @@ public class MemberController {
 	
 	@Autowired
 	private BCryptPasswordEncoder bcryptPasswordEncoder;
+	
+	/**
+	 * spring 비동기통신 1
+	 *  - jsonView빈을 통해 model에 담긴 속성을 json문자열로 변환후, 응답메세지에 작성
+	 *  
+	 *  
+	 */
+	@GetMapping("/checkIdDuplicate1.do")
+	public String checkDuplicate1(@RequestParam String id, Model model) {
+		// 아이디중복검사
+		Member member = memberService.selectOneMember(id);
+		boolean available = (member == null);
+		
+		// 사용자에게 비동기처리로 넘어가는부분
+		model.addAttribute("available", available);
+		model.addAttribute("id", id);
+		
+		return "jsonView";
+	}
+	
+	/**
+	 * @ResponseBody 리턴된 자바객체를 그대로 응답메세지에 json문자열로 변환해서 출력.
+	 *  - 1. jackson의존 
+	 *  - 2. RequestMappingHandlerAdapter빈의 MessegeConverters List객체에 jacksonMessageConverter빈이 자동등록
+	 *  servlet-context.xml -> <annotation-driven />에 의해 자동처리
+	 */
+	@GetMapping("/checkIdDuplicate2.do")
+	@ResponseBody
+	public Map<String, Object> checkIdDuplicate2(@RequestParam String id) {
+		Member member = memberService.selectOneMember(id);
+		boolean available = (member == null);
+		
+		Map<String, Object> map = new HashMap<>();
+		map.put("id", id);
+		map.put("available", available);
+		map.put("servletTime", System.currentTimeMillis());
+		
+		return map;
+	}
+	
+	/**
+	 * ResponseEntity<?>
+	 *  - 응답메세지를 직접 작성. 리턴객체를 json변환 기능 -> @ResponseBody
+	 *  - 헤더값과 상태코드를 직접 제어
+	 *  
+	 *  1. status code
+	 *  2. 응답헤더
+	 *  3. 응답메세지 body에 작성할 java객체
+	 *  
+	 *  - 생성자를 통해서 만들거나 builder패턴으로 생성할 수 있다.
+	 */
+	@GetMapping("/checkIdDuplicate3.do")
+	public ResponseEntity<Map<String, Object>> checkIdDuplicate3(@RequestParam String id){
+		
+		try {
+			Member member = memberService.selectOneMember(id);
+			boolean available = (member == null);
+			
+			Map<String, Object> map = new HashMap<>();
+			map.put("id", id);
+			map.put("available", available);
+			map.put("servletTime", System.currentTimeMillis());
+			
+			return ResponseEntity
+					.ok()
+					.header("custom-header", "hello")
+					.body(map);
+			
+		} catch (Exception e) {
+			return ResponseEntity.status(500).build();
+		}
+	}
 	
 //	@RequestMapping(value="memberLogin.do", method = RequestMethod.GET)
 	@GetMapping("/memberLogin.do")

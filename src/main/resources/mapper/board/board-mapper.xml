@@ -62,4 +62,43 @@
 		where
 			board_no = #{boardNo}
 	</select>
+	<select id="selectOneBoardCollection" resultMap="boardCollectionMap">
+		SELECT 
+			b.*,
+			a.*,
+			a.NO attach_no
+		FROM 
+			board b LEFT JOIN ATTACHMENT a 
+				ON b.NO = a.BOARD_NO 
+		WHERE 
+			b.NO = #{no}
+	</select>
+	<resultMap type="board" id="boardCollectionMap">
+		<id column="no" property="no"/>
+		<result column="title" property="title"/>
+		<result column="member_id" property="memberId"/>
+		<result column="content" property="content"/>
+		<result column="reg_date" property="regDate"/>
+		<result column="read_count" property="readCount"/>
+		<collection property="attachments" ofType="attachment">
+			<id column="attach_no" property="no"/>
+			<result column="board_no" property="boardNo"/>
+			<result column="original_filename" property="originalFilename"/>
+			<result column="renamed_filename" property="renamedFilename"/>
+			<result column="upload_date" property="uploadDate"/>
+			<result column="download_count" property="downloadCount"/>
+			<result column="status" property="status"/>
+		</collection>
+	</resultMap>
+	
+	<select id="selectOneAttachment" resultType="attachment">
+		select
+			*
+		from
+			attachment
+		where
+			no = #{no}
+	</select>
+	
+	
 </mapper>
